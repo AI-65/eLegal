@@ -44,15 +44,15 @@ class LangChatBot:
             ("human", "{input}"),
             MessagesPlaceholder(variable_name="agent_scratchpad")
         ])
-        search = TavilySearchResults()
+        #search = TavilySearchResults()
         agent = create_openai_functions_agent(
             llm=model,
             prompt=prompt,
-            tools=[retrieve_documents]
+            tools=[]
         )
         self.agentExecutor = AgentExecutor(
             agent=agent,
-            tools=[search]
+            tools=[retrieve_documents]
         )
         self.chat_history = []
 
