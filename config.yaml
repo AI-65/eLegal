@@ -1,0 +1,13 @@
+credentials:
+  usernames:
+    ND:
+      email: johannes.goepel@northerndata.de
+      name: ND
+      password: abc
+cookie:
+  expiry_days: 30
+  key: nd_chgfsdolknmgklfnmsdpkgnuishnjefafkolhnjaujifngzudsfg
+  name: nd_reporting_example
+preauthorized:
+  emails:
+  - johannes.goepel+app@northerndata.de

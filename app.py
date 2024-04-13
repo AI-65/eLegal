@@ -2,15 +2,18 @@ import uuid
 import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
-from agent.chat import start_chat_interface
 from agent import create_elastic_search
-
+import yaml
+from yaml.loader import SafeLoader
 import ui.footer as footer
 
 st.set_page_config(page_title="eLegal Hackathon", page_icon=None, layout="wide", initial_sidebar_state="auto",
                    menu_items=None)
 dotenv.load_dotenv()
 st.session_state.vector_search = create_elastic_search()
+
+with open('config.yaml') as file:
+    config = yaml.load(file, Loader=SafeLoader)
 
 
 def main():
@@ -21,7 +24,7 @@ def main():
         with st.form("user_input_form"):
             name = st.text_input("Enter your name:")
             email = st.text_input("Enter your email:")
-            plz = st.number_input("Enter your postal code:", min_value=00000, max_value=99999, step=1)
+            plz = st.number_input("Enter your postal code:", min_value=10000, max_value=99999, step=1)
             documents = st.file_uploader("Upload relevant documents", accept_multiple_files=True)
             description = st.text_area("Brief description of your legal issue:")
             submit_button = st.form_submit_button("Start Chat")

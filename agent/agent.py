@@ -56,6 +56,7 @@ class LangChatBot:
             tools=[legal]
         )
         self.chat_history = []
+        self.chat_history.append(HumanMessage(content=initial_user_info['description']))
 
 
     def chat(self, query, session_id):
