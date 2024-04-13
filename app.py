@@ -2,7 +2,11 @@ import uuid
 import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
+<<<<<<< HEAD
 import datetime
+=======
+import ui.footer as footer
+>>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
 
 dotenv.load_dotenv()
 
@@ -16,6 +20,7 @@ def main():
             documents = st.file_uploader("Upload relevant documents", accept_multiple_files=True)
             description = st.text_area("Brief description of your legal issue:")
             submit_button = st.form_submit_button("Start Chat")
+            footer.display_footer()
 
         if submit_button:
             # Ensure all data is collected before proceeding
@@ -38,6 +43,11 @@ def main():
             # Instantiate the chatbot with initial user info
             st.session_state.chatbot = LangChatBot(st.session_state.initial_user_info)
             start_chat_interface()
+<<<<<<< HEAD
+=======
+            footer.display_footer()
+
+>>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
     else:
         start_chat_interface()
 
@@ -75,10 +85,19 @@ def handle_chat(user_input, chat_container):
     # Update the chat history
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
+<<<<<<< HEAD
     st.session_state.chat_history.append({"sender": "You", "message": user_input, "timestamp": datetime.datetime.now()})
     st.session_state.chat_history.append({"sender": "Chatbot", "message": response, "timestamp": datetime.datetime.now()})
 
 
+=======
+    st.session_state.chat_history.append(f"You: {user_input}")
+    st.session_state.chat_history.append(f"Chatbot: {response}")
+    
+    # Redisplay the updated chat history
+    display_chat_history(chat_container)
+    footer.display_footer()
+>>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
 
 def display_chat_history(chat_container):
     with chat_container:
@@ -89,10 +108,5 @@ def display_chat_history(chat_container):
             else:
                 st.markdown(f"**Chatbot ({entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}):** {entry['message']}")
 
-def display_footer():
-    st.write("Your conversation will be kept confidential. This chatbot provides preliminary advice and is not a substitute for professional legal consultation.")
-    st.image("https://via.placeholder.com/300x50?text=Your+Logo+Here", width=300)  # Replace with your actual logo
-
 if __name__ == "__main__":
     main()
-    display_footer()
