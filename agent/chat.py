@@ -54,8 +54,6 @@ def display_chat_history(chat_container):
     with chat_container:
         st.write("Conversation:")
         for entry in st.session_state.chat_history:
-            print(entry)
-            print(type(entry))
             if entry["sender"] == "You":
                 st.markdown(f"**You ({entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}):** {entry['message']}")
             else:

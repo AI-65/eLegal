@@ -3,12 +3,15 @@ import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
 from agent.chat import start_chat_interface
+from agent import create_elastic_search
 
 import ui.footer as footer
 
 st.set_page_config(page_title="eLegal Hackathon", page_icon=None, layout="wide", initial_sidebar_state="auto",
                    menu_items=None)
 dotenv.load_dotenv()
+st.session_state.vector_search = create_elastic_search()
+
 
 def main():
     st.title("eLegal Hackathon")

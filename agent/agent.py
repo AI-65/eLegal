@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import create_openai_functions_agent, AgentExecutor
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_core.messages import HumanMessage, AIMessage
-#from agent import retrieve_documents
+from agent.retriver import retrieve_documents, LegalSearchTool
 import sqlite3
 import os
 from uuid import uuid4
@@ -33,8 +33,8 @@ class LangChatBot:
     def __init__(self, initial_user_info):
         # Initialize LangChain components with a detailed system prompt that includes user details
         model = ChatOpenAI(
-            model='gpt-3.5-turbo-1106',
-            temperature=0.7
+            model='gpt-4-turbo',
+            temperature=0.2
         )
         # Construct the system prompt with the initial user info
         initial_prompt = f"Du bist ein extrem krasser Anwalt. Hier sind einige Informationen über deinen neuen Mandanten: Name: {initial_user_info['name']}, Email: {initial_user_info['email']}, Beschreibung: {initial_user_info['description']}."
@@ -44,15 +44,16 @@ class LangChatBot:
             ("human", "{input}"),
             MessagesPlaceholder(variable_name="agent_scratchpad")
         ])
-        search = TavilySearchResults()
+        #search = TavilySearchResults()
+        legal = LegalSearchTool()
         agent = create_openai_functions_agent(
             llm=model,
             prompt=prompt,
-            tools=[search]
+            tools=[legal]
         )
         self.agentExecutor = AgentExecutor(
             agent=agent,
-            tools=[search]
+            tools=[legal]
         )
         self.chat_history = []
 
