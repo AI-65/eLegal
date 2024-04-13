@@ -1,7 +1,8 @@
 from langchain_community.document_loaders import DataFrameLoader
 from langchain_community.vectorstores.elasticsearch import ElasticsearchStore
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.tools import BaseTool, StructuredTool, tool
+from langchain.tools import BaseTool, StructuredTool, tool, BaseModel
+from langchain.pydantic_v1 import BaseModel, Field
 import os
 
 
@@ -17,9 +18,10 @@ def create_elastic_search():
             )
     return elastic_vector_search.as_retriever()
 
-@tool
+class SearchInput(BaseModel):
+    query: str = Field(description="should be a legal search query")
+@tool("search-tool", args_schema=SearchInput, return_direct=True)
 def retrieve_documents(query: str, elastic_vector_search) -> list:
-
     search_results = elastic_vector_search.get_relevant_documents(query)
     return search_results
 
