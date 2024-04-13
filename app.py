@@ -2,6 +2,8 @@ import uuid
 import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
+import ui.footer as footer
+
 
 dotenv.load_dotenv()
 
@@ -18,6 +20,7 @@ def main():
             documents = st.file_uploader("Upload relevant documents", accept_multiple_files=True)
             description = st.text_area("Brief description of your legal issue:")
             submit_button = st.form_submit_button("Start Chat")
+            footer.display_footer()
 
         if submit_button:
             # Save session information and user inputs
@@ -29,6 +32,7 @@ def main():
             st.session_state.chat_history = []
             # Proceed to chat interface
             start_chat_interface()
+            footer.display_footer()
 
     else:
         # Continue existing session
@@ -69,16 +73,12 @@ def handle_chat(user_input, chat_container):
     
     # Redisplay the updated chat history
     display_chat_history(chat_container)
+    footer.display_footer()
 
 def display_chat_history(chat_container):
     with chat_container:
         for message in st.session_state.chat_history:
             st.text(message)
 
-def display_footer():
-    st.write("Your conversation will be kept confidential. This chatbot provides preliminary advice and is not a substitute for professional legal consultation.")
-    st.image("https://via.placeholder.com/300x50?text=Your+Logo+Here", width=300)  # Replace with your actual logo
-
 if __name__ == "__main__":
     main()
-    display_footer()
