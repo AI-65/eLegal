@@ -8,22 +8,32 @@ dotenv.load_dotenv()
 def main():
     st.title("eLegal Hackathon")
 
-    # Initialize the session state if it does not exist
+    # Check if the session has already been initialized
     if 'session_id' not in st.session_state:
+        # Create a form for new user inputs
         with st.form("user_input_form"):
+            # User inputs for registration
             name = st.text_input("Enter your name:")
             email = st.text_input("Enter your email:")
+            documents = st.file_uploader("Upload relevant documents", accept_multiple_files=True)
+            description = st.text_area("Brief description of your legal issue:")
             submit_button = st.form_submit_button("Start Chat")
 
         if submit_button:
+            # Save session information and user inputs
             st.session_state.session_id = str(uuid.uuid4())
             st.session_state.name = name
             st.session_state.email = email
+            st.session_state.documents = documents
+            st.session_state.description = description
             st.session_state.chat_history = []
+            # Proceed to chat interface
             start_chat_interface()
 
     else:
+        # Continue existing session
         start_chat_interface()
+
 
 def start_chat_interface():
     st.header(f"Welcome, {st.session_state.name}!")
