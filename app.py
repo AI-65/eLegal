@@ -4,7 +4,6 @@ from agent import LangChatBot  # Ensure this is the correct import based on your
 import dotenv
 import ui.footer as footer
 
-
 dotenv.load_dotenv()
 
 def main():
