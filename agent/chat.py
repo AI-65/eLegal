@@ -42,8 +42,8 @@ def handle_chat(user_input, chat_container):
     st.session_state.chat_history.append(
         {"sender": "Chatbot", "message": response, "timestamp": datetime.datetime.now()})
 
-    st.session_state.chat_history.append(f"You: {user_input}")
-    st.session_state.chat_history.append(f"Chatbot: {response}")
+    st.session_state.chat_history.append( {"You":user_input})
+    st.session_state.chat_history.append( {"Chatbot":response})
 
     # Redisplay the updated chat history
     display_chat_history(chat_container)
@@ -54,6 +54,8 @@ def display_chat_history(chat_container):
     with chat_container:
         st.write("Conversation:")
         for entry in st.session_state.chat_history:
+            print(entry)
+            print(type(entry))
             if entry["sender"] == "You":
                 st.markdown(f"**You ({entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}):** {entry['message']}")
             else:

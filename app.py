@@ -6,12 +6,14 @@ from agent.chat import start_chat_interface
 
 import ui.footer as footer
 
-
+st.set_page_config(page_title="eLegal Hackathon", page_icon=None, layout="wide", initial_sidebar_state="auto",
+                   menu_items=None)
 dotenv.load_dotenv()
 
 def main():
     st.title("eLegal Hackathon")
 
+    st.sidebar.image("static/Logo_t.png", use_column_width=True)
     if 'session_id' not in st.session_state:
         with st.form("user_input_form"):
             name = st.text_input("Enter your name:")
@@ -41,14 +43,16 @@ def main():
                 "email": email,
                 "description": description
             }
+            footer.display_footer()
             # Instantiate the chatbot with initial user info
             st.session_state.chatbot = LangChatBot(st.session_state.initial_user_info)
-            start_chat_interface()
-            footer.display_footer()
+
+            st.switch_page("chat")
+
 
 
     else:
-        start_chat_interface()
+        st.switch_page("chat")
 
 
 if __name__ == "__main__":
