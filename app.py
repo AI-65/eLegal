@@ -2,11 +2,11 @@ import uuid
 import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
-<<<<<<< HEAD
+
 import datetime
-=======
+
 import ui.footer as footer
->>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
+
 
 dotenv.load_dotenv()
 
@@ -43,11 +43,9 @@ def main():
             # Instantiate the chatbot with initial user info
             st.session_state.chatbot = LangChatBot(st.session_state.initial_user_info)
             start_chat_interface()
-<<<<<<< HEAD
-=======
             footer.display_footer()
 
->>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
+
     else:
         start_chat_interface()
 
@@ -85,19 +83,18 @@ def handle_chat(user_input, chat_container):
     # Update the chat history
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
-<<<<<<< HEAD
+
     st.session_state.chat_history.append({"sender": "You", "message": user_input, "timestamp": datetime.datetime.now()})
     st.session_state.chat_history.append({"sender": "Chatbot", "message": response, "timestamp": datetime.datetime.now()})
 
 
-=======
     st.session_state.chat_history.append(f"You: {user_input}")
     st.session_state.chat_history.append(f"Chatbot: {response}")
     
     # Redisplay the updated chat history
     display_chat_history(chat_container)
     footer.display_footer()
->>>>>>> b52cb5dc98890a75fb1b1f2d7d550693c1776325
+
 
 def display_chat_history(chat_container):
     with chat_container:
