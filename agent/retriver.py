@@ -14,9 +14,9 @@ def create_elastic_search():
                 es_user=os.getenv("ELASTIC_USER"),
                 es_password=os.getenv("ELASTIC_PW")
             )
-    return elastic_vector_search
+    return elastic_vector_search.as_retriever()
 
 def retrieve_documents(query, elastic_vector_search):
-    search_results = elastic_vector_search.search(query)
+    search_results = elastic_vector_search.get_relevant_documents(query)
     return search_results
 
