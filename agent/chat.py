@@ -42,8 +42,8 @@ def handle_chat(user_input, chat_container):
     st.session_state.chat_history.append(
         {"sender": "Chatbot", "message": response, "timestamp": datetime.datetime.now()})
 
-    st.session_state.chat_history.append( {"You":user_input})
-    st.session_state.chat_history.append( {"Chatbot":response})
+    #st.session_state.chat_history.append( {"You":user_input})
+    #st.session_state.chat_history.append( {"Chatbot":response})
 
     # Redisplay the updated chat history
     display_chat_history(chat_container)

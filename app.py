@@ -47,12 +47,12 @@ def main():
             # Instantiate the chatbot with initial user info
             st.session_state.chatbot = LangChatBot(st.session_state.initial_user_info)
 
-            st.switch_page("chat")
+            st.switch_page("pages/chat.py")
 
 
 
     else:
-        st.switch_page("chat")
+        st.switch_page("pages/chat.py")
 
 
 if __name__ == "__main__":
