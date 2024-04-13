@@ -1,4 +1,3 @@
-from langchain_community.document_loaders import DataFrameLoader
 from langchain_community.vectorstores.elasticsearch import ElasticsearchStore
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.tools import BaseTool, StructuredTool, tool
@@ -29,8 +28,9 @@ class SearchInput(BaseModel):
 
 
 @tool("search-tool", args_schema=SearchInput, return_direct=True)
-def retrieve_documents(query: str) -> list:
+def retrieve_documents(query: str):
     """Retrieve legal documents from the vector store based on a query."""
     search_results = elastic_vector_search.get_relevant_documents(query)
-    return search_results
+    print(type(search_results))
+    return " ".join(search_results)
 

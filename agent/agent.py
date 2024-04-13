@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import create_openai_functions_agent, AgentExecutor
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_core.messages import HumanMessage, AIMessage
-from agent.retriver import retrieve_documents
+#from agent import retrieve_documents
 import sqlite3
 import os
 from uuid import uuid4
@@ -48,11 +48,11 @@ class LangChatBot:
         agent = create_openai_functions_agent(
             llm=model,
             prompt=prompt,
-            tools=[search, retrieve_documents]
+            tools=[search]
         )
         self.agentExecutor = AgentExecutor(
             agent=agent,
-            tools=[retrieve_documents]
+            tools=[search]
         )
         self.chat_history = []
 
