@@ -28,17 +28,17 @@ conn.commit()
 
 
 
-class LangChatBot():
-
-    def __init__(self):
-        #self.logger = logging.getLogger(__name__)
-        # Initialize LangChain components
+class LangChatBot:
+    def __init__(self, initial_user_info):
+        # Initialize LangChain components with a detailed system prompt that includes user details
         model = ChatOpenAI(
             model='gpt-3.5-turbo-1106',
             temperature=0.7
         )
+        # Construct the system prompt with the initial user info
+        initial_prompt = f"Du bist ein extrem krasser Anwalt. Hier sind einige Informationen über deinen neuen Mandanten: Name: {initial_user_info['name']}, Email: {initial_user_info['email']}, Beschreibung: {initial_user_info['description']}."
         prompt = ChatPromptTemplate.from_messages([
-            ("system", "Du bist ein extrem krasser Anwalt von Allen & Overy. Du gibst extrem krasse typs and deine mandanten indem du online ein bisschen recherchierst ."),
+            ("system", initial_prompt),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}"),
             MessagesPlaceholder(variable_name="agent_scratchpad")
@@ -54,7 +54,6 @@ class LangChatBot():
             tools=[search]
         )
         self.chat_history = []
-
 
 
     def chat(self, query, session_id):

@@ -2,17 +2,15 @@ import uuid
 import streamlit as st
 from agent import LangChatBot  # Ensure this is the correct import based on your project structure
 import dotenv
+import datetime
 
 dotenv.load_dotenv()
 
 def main():
     st.title("eLegal Hackathon")
 
-    # Check if the session has already been initialized
     if 'session_id' not in st.session_state:
-        # Create a form for new user inputs
         with st.form("user_input_form"):
-            # User inputs for registration
             name = st.text_input("Enter your name:")
             email = st.text_input("Enter your email:")
             documents = st.file_uploader("Upload relevant documents", accept_multiple_files=True)
@@ -20,18 +18,27 @@ def main():
             submit_button = st.form_submit_button("Start Chat")
 
         if submit_button:
-            # Save session information and user inputs
+            # Ensure all data is collected before proceeding
+            if not all([name, email, description]):
+                st.error("Please fill in all fields.")
+                return
+
+            # Initialize session state variables
             st.session_state.session_id = str(uuid.uuid4())
             st.session_state.name = name
             st.session_state.email = email
             st.session_state.documents = documents
             st.session_state.description = description
             st.session_state.chat_history = []
-            # Proceed to chat interface
+            st.session_state.initial_user_info = {
+                "name": name,
+                "email": email,
+                "description": description
+            }
+            # Instantiate the chatbot with initial user info
+            st.session_state.chatbot = LangChatBot(st.session_state.initial_user_info)
             start_chat_interface()
-
     else:
-        # Continue existing session
         start_chat_interface()
 
 
@@ -58,22 +65,29 @@ def start_chat_interface():
             handle_chat(user_input, chat_container)
 
 def handle_chat(user_input, chat_container):
-    chatbot = LangChatBot()  # instantiate your chatbot if not already done
-    response = chatbot.chat(user_input, st.session_state.session_id)
-    
+    # Assume the chatbot instance exists in the session state and use it directly
+    chatbot = st.session_state.chatbot
+
+    # Mimic a sending message delay
+    with st.spinner("Sending..."):
+        response = chatbot.chat(user_input, st.session_state.session_id)
+
     # Update the chat history
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
-    st.session_state.chat_history.append(f"You: {user_input}")
-    st.session_state.chat_history.append(f"Chatbot: {response}")
-    
-    # Redisplay the updated chat history
-    display_chat_history(chat_container)
+    st.session_state.chat_history.append({"sender": "You", "message": user_input, "timestamp": datetime.datetime.now()})
+    st.session_state.chat_history.append({"sender": "Chatbot", "message": response, "timestamp": datetime.datetime.now()})
+
+
 
 def display_chat_history(chat_container):
     with chat_container:
-        for message in st.session_state.chat_history:
-            st.text(message)
+        st.write("Conversation:")
+        for entry in st.session_state.chat_history:
+            if entry["sender"] == "You":
+                st.markdown(f"**You ({entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}):** {entry['message']}")
+            else:
+                st.markdown(f"**Chatbot ({entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}):** {entry['message']}")
 
 def display_footer():
     st.write("Your conversation will be kept confidential. This chatbot provides preliminary advice and is not a substitute for professional legal consultation.")
