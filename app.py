@@ -20,6 +20,8 @@ def main():
     st.title("eLegal Hackathon")
 
     st.sidebar.image("static/Logo_t.png", use_column_width=True)
+    st.sidebar.Header("eLegal Hackathon - FIYOMA")
+    st.sidebar.subheader("Find Your Massaction!")
     if 'session_id' not in st.session_state:
         with st.form("user_input_form"):
             name = st.text_input("Enter your name:")

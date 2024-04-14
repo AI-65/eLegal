@@ -5,6 +5,8 @@ import datetime
 
 def start_chat_interface():
     st.sidebar.image("static/Logo_t.png", use_column_width=True)
+    st.sidebar.Header("eLegal Hackathon - FIYOMA")
+    st.sidebar.subheader("Find Your Massaction!")
     st.header(f"Welcome, {st.session_state.name}!")
 
     # Chat Simulation Section
